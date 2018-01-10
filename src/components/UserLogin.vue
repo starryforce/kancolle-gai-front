@@ -12,6 +12,8 @@
         <el-button type="primary" @click="processLogin('login')">登录</el-button>
         <el-button @click="resetInfo('login')">重置</el-button>
       </el-form-item>
+      <el-button type="primary" @click="signOut">登出</el-button>
+      <p>{{isLogin?"已登录":"未登录"}}</p>
     </el-form>
   </section>
 </template>
@@ -37,22 +39,33 @@ export default {
       },
     };
   },
+  computed: {
+    isLogin() {
+      return this.$store.state.isLogin;
+    },
+  },
   methods: {
     processLogin(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.$http.post('/v1/login', {
+          this.$http.post('/v1/sign_in', {
             name: this.login.name,
             password: this.login.password,
           }).then((response) => {
             this.result = JSON.stringify(response.data);
             this.$refs[formName].resetFields();
+            this.$store.dispatch('checkLogin');
+            this.isLogin = this.$store.state.isLogin;
           });
         } else {
           return false;
         }
         return false;
       });
+    },
+    async signOut() {
+      const response = await this.$http.post('/v1/sign_out');
+      return response.data.result;
     },
     resetInfo(formName) {
       this.$refs[formName].resetFields();

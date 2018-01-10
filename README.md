@@ -1,30 +1,22 @@
-# front-end
-
-> A Vue.js project
-
-## Build Setup
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
-```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+# kancolle-gai
+a website to store modified kancolle characters
+***
+## 前端
+> Vue 全家桶、Webpack 打包、UI 组件库 Element
+## 后端
+> nodeJS、Web 框架 Koa2、ORM 框架 Sequelize、数据库 mySQL
+## 编码
+> ES6 语法、babel 转码、样式 SASS、兼容到 IE9、RESTful API。
+## 编码规范
+> Vue 官方风格指南，airbnb eslint 规则
+## 测试框架
+> mocha + chai
+## 文档编写
+> MarkDown
+## 代码管理
+> Github
+## 反向代理
+> Nginx
+## session保存
+> Redis
+***
