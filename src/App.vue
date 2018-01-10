@@ -16,6 +16,21 @@ export default {
     HomeHeader,
     HomeFooter,
   },
+  beforeCreate() {
+    this.$store.dispatch('checkLogin').then(() => {
+      const { isLogin } = this.$store.state;
+      if (this.$router.currentRoute.matched.some(record => record.meta.requiresAuth)) {
+        if (!isLogin) {
+          this.$router.push({
+            path: '/login',
+            query: {
+              redirect: this.$router.fullPath,
+            },
+          });
+        }
+      }
+    });
+  },
 };
 </script>
 <style lang="scss" src="./styles/reboot.scss"></style>

@@ -35,7 +35,11 @@
           router>
           <el-menu-item index="/home">主页</el-menu-item>
           <el-menu-item index="/console">控制台</el-menu-item>
-          <el-menu-item index="/login">登录</el-menu-item>
+          <el-menu-item class="m-hoverable" index="/login">
+            <span v-if="!isLogin">登录</span>
+            <span v-if="isLogin" class="normal">已登录</span>
+            <span v-if="isLogin" class="hover" @click.stop="signOut">注销</span>
+          </el-menu-item>
           <el-menu-item index="/register">注册</el-menu-item>
         </el-menu>
       </el-col>
@@ -44,6 +48,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 
 export default {
   name: 'HomeHeader',
@@ -52,6 +57,18 @@ export default {
       keyword: '',
       activeRouter: '/home',
     };
+  },
+  computed: {
+    ...mapState({
+      isLogin: 'isLogin',
+    }),
+  },
+  methods: {
+    async signOut() {
+      const response = await this.$http.post('/v1/sign_out');
+      this.$store.dispatch('checkLogin');
+      return response.data.result;
+    },
   },
 };
 </script>
@@ -85,6 +102,20 @@ export default {
       text-shadow: $light-blue-shadow, $light-blue-shadow, $light-blue-shadow,
         $light-blue-shadow, $light-blue-shadow;
     }
+  }
+}
+.m-hoverable {
+  cursor: default;
+  color: #000;
+  text-decoration: none;
+  & .hover {
+    display: none;
+  }
+  &:hover .normal {
+    display: none;
+  }
+  &:hover .hover {
+    display: inline; /* CHANGE IF FOR BLOCK ELEMENTS */
   }
 }
 </style>

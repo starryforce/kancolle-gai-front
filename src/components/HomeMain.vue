@@ -13,12 +13,19 @@
           </el-carousel-item>
         </el-carousel>
         <section class="panel">
+          <div v-if="isLogin">
             <p>头像占位符</p>
             <p>描述占位符</p>
             <p>个人信息占位符</p>
             <router-link to="/console/card">
               <button>上传魔改</button>
             </router-link>
+          </div>
+          <div v-else>
+            <router-link to="/login">
+              <button>登录</button>
+            </router-link>
+          </div>
         </section>
       </div>
       <ShowZone class="clearfix" sort="uploadTime">最新</ShowZone>
@@ -27,9 +34,8 @@
   </el-container>
 </template>
 
-
-
 <script>
+import { mapState } from 'vuex';
 import NavMenu from './NavMenu';
 import ShowZone from './ShowZone';
 import getShipCardsMixin from '../mixin/getShipCards';
@@ -46,6 +52,11 @@ export default {
       shipCards: [],
     };
   },
+  computed: {
+    ...mapState({
+      isLogin: 'isLogin',
+    }),
+  },
   mounted() {
     this.getShipCards({
       sortBy: 'uploadTime',
@@ -60,7 +71,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.el-aside{
+.el-aside {
   overflow: visible;
 }
 .m-home {

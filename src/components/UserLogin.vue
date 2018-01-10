@@ -12,7 +12,6 @@
         <el-button type="primary" @click="processLogin('login')">登录</el-button>
         <el-button @click="resetInfo('login')">重置</el-button>
       </el-form-item>
-      <el-button type="primary" @click="signOut">登出</el-button>
       <p>{{isLogin?"已登录":"未登录"}}</p>
     </el-form>
   </section>
@@ -52,20 +51,28 @@ export default {
             name: this.login.name,
             password: this.login.password,
           }).then((response) => {
-            this.result = JSON.stringify(response.data);
-            this.$refs[formName].resetFields();
-            this.$store.dispatch('checkLogin');
-            this.isLogin = this.$store.state.isLogin;
+            if (response.data.result === 'success') {
+              // 获取跳转进登录页面的路由，留待登录成功后跳转
+              const { redirect } = this.$route.query;
+              // 登录成功后清空输入的数据
+              this.$refs[formName].resetFields();
+              // 修改全局登录状态变量为已登录
+              this.$store.dispatch('checkLogin').then(() => {
+                // 跳转至之前的页面
+                if (redirect !== '/login' && redirect !== '' && !!redirect) {
+                  this.$router.push({
+                    path: redirect,
+                  });
+                } else {
+                  this.$router.push({
+                    path: '/',
+                  });
+                }
+              });
+            }
           });
-        } else {
-          return false;
         }
-        return false;
       });
-    },
-    async signOut() {
-      const response = await this.$http.post('/v1/sign_out');
-      return response.data.result;
     },
     resetInfo(formName) {
       this.$refs[formName].resetFields();
