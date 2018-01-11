@@ -1,4 +1,5 @@
 # kancolle-gai
+[![Build Status](https://travis-ci.org/starryforce/kancolle-gai-front.svg?branch=master)](https://travis-ci.org/starryforce/kancolle-gai-front)
 a website to store modified kancolle characters
 ***
 ## 前端
